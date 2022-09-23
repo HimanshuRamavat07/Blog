@@ -1,17 +1,19 @@
+<?php session_start(); ?>
 <?php include_once('./header.php'); ?>
-
 <div class="row" >
     <div class="col-md-2"></div>
     <div class="col-md-8 my-5">
         <div class="card-header" style="border-radius:10px ;">
             <form class=" mx-5 my-5" method="post" enctype="multipart/form-data">
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" id="floatingTitle" name="title" placeholder="Add title" required>
+                    <input type="text" class="form-control" id="floatingTitle" name="title" placeholder="Add title" >
                     <label for="floatingTitle" class="form-label">Title</label>
+                    <div id="title_error" class="form-text text-danger"></div>
                 </div>
                 <div class="mb-3 form-floating">
-                    <textarea class="form-control" placeholder="Add blog description" id="floatingTextarea2" name="content" style="height: 400px" required></textarea>
+                    <textarea class="form-control" placeholder="Add blog description" id="floatingTextarea2" name="content" style="height: 400px" ></textarea>
                     <label for="floatingTextarea2">Description</label>
+                    <div id="content_error" class="form-text text-danger"></div>
                 </div>
                 <div class="form-floating mb-3">
                     <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="category">
@@ -46,6 +48,12 @@ if (isset($_POST['submit'])) {
     $statusMsg = '';
     extract($_POST);
     // File upload path
+    if(empty($title)) {
+        ?> <script>document.getElementById('title_error').innerHTML = "Please Enter Title";</script> <?php
+    }
+    if(empty($content)) {
+        ?> <script>document.getElementById('content_error').innerHTML = "Please Enter Description";</script> <?php
+    }
     $targetDir = "./Upload/";
     $fileName = basename($_FILES["fileImage"]["name"]);
     $targetFilePath = $targetDir . $fileName;

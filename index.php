@@ -15,7 +15,6 @@ if(isset($_GET['cat_id'])) {
 }
 ?>
 
-
     <div class="my-3  d-flex justify-content-end mx-5">
         <button type="submit" class="btn btn-secondary btn-floating btn-lg button" id="top">
             <i class="bi bi-plus-circle"><a href="./add_post.php"> Create New Post </a></i>
