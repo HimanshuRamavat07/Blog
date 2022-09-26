@@ -17,9 +17,9 @@ if (isset($_GET['cat_id'])) {
 }
 ?>
 
-<div class="my-3  d-flex justify-content-end mx-5">
+<div class="my-3  d-flex justify-content-end mx-5 ">
     <button type="submit" class="btn btn-secondary btn-floating btn-lg button" id="top">
-        <i class="bi bi-plus-circle"><a href="./add_post.php"> Create New Post </a></i>
+        <i class="bi bi-plus-circle"><a href="./Post/add_post.php"> Create New Post </a></i>
     </button>
 </div>
 <div class="container-fluid my-1">
@@ -47,7 +47,7 @@ if (isset($_GET['cat_id'])) {
                                         <?php $pos = strpos($result['description'], ' ', 150);
                                         echo substr($result['description'], 0, $pos) . ".....";  ?>
                                     </p>
-                                    <a href="./post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
+                                    <a href="./Post/post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
                                 </div>
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>
@@ -79,7 +79,7 @@ if (isset($_GET['cat_id'])) {
                                         <?php $pos = strpos($result['description'], ' ', 300);
                                         echo substr($result['description'], 0, $pos) . ".....";  ?>
                                     </p>
-                                    <a href="./post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
+                                    <a href="./Post/post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
                                 </div>
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>

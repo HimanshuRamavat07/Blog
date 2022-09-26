@@ -65,7 +65,15 @@ session_start();
 <!-- Section: Design Block -->
 </div>
 <?php include './footer.php' ?>
-
+<script>
+    function preventBack() {
+        window.history.forward();
+    }
+    setTimeout("preventBack()", 0);
+    window.onunload = function() {
+        null
+    };
+</script>
 <?php
 if (isset($_POST['submit'])) {
     include_once './Config/connection.php';
