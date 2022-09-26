@@ -83,21 +83,22 @@ if (isset($_POST['submit'])) {
            
 ?>
             <script>
-                alert("successfully login");
-                window.location.href = "./index.php";
+                alertify.alert('Welcome  <?php echo $row['author_name']; ?> :' ,"successfully login",()=>{(window.location.href = "./index.php")});
+                
             </script>
+           
         <?php
         } else {
         ?>
             <script>
-                alert("Check your password ");
+                 alertify.alert('This page says: ','Enter correct password!', function(){ alertify.error('try again'); });
             </script>
         <?php
         }
     } else {
         ?>
         <script>
-            alert("Check your Email ");
+            alertify.alert('This page says: ',"Check your Email ",function(){ alertify.error('try again'); });
         </script>
 <?php
     }
