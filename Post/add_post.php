@@ -6,7 +6,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8 my-5">
         <div class="card-header" style="border-radius:10px ;">
-            <form class=" mx-5 my-5"  enctype="multipart/form-data" action="javascript:void(0);" id="frmdata" onsubmit="submitFormData(this)">
+            <form class=" mx-5 my-5"  enctype="multipart/form-data" action="javascript:void(0);" id="frmdata" >
                 <div class="mb-3 form-floating">
                     <input type="text" class="form-control" id="floatingTitle" name="title" placeholder="Add title">
                     <label for="floatingTitle" class="form-label">Title</label>
@@ -18,7 +18,7 @@
                     <div id="content_error" class="form-text text-danger"></div>
                 </div>
                 <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="category" required>
+                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="category" >
                         <option selected value="">Open this select menu</option>
                         <option value="1">Information & technology</option>
                         <option value="2">knowledge</option>
@@ -32,7 +32,7 @@
                     <input class="form-control form-control-lg" id="formFileLg" type="file" name="fileImage">
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-outline-secondary " name="submit">Submit</button>
+                    <button type="submit" class="btn btn-outline-secondary" id="submit" name="submit" onclick="submitFormData()">Submit</button>
                 </div>
             </form>
         </div>
@@ -40,46 +40,56 @@
     <div class="col-md-2"></div>
 </div>
 
-
+<script>document.title = "Blog-Post";</script>
 <?php include_once('../footer.php'); ?>
 <script>
     let title = document.getElementById('floatingTitle');
     title.addEventListener('focusout', nameCheck);
     let content = document.getElementById('floatingTextarea2');
     content.addEventListener('focusout', contentCheck);
+
+    // let submit = document.getElementById('submit');
+    // submit.addEventListener('focusout', submit);
+     msg = "ww";
    
     function nameCheck() {
         if (title.value.length < 3) {
-            document.getElementById('title_error').innerHTML = "minimum 3 character";
+            document.getElementById('title_error').innerHTML = "Name must be contain 3 character";
             // content.style.display ="none";
+            msg = "error";
+           
         } else {
             document.getElementById('title_error').innerHTML = "";
+             msg = "";
             // content.style.display ="";
         }
     }
 
     function contentCheck() {
         if (content.value.length < 3) {
-            document.getElementById('content_error').innerHTML = "minimum 3 character";
+            document.getElementById('content_error').innerHTML = "Description must be contain  3 character";
             // content.style.display ="none";
+            msg = "error";
         } else {
             document.getElementById('content_error').innerHTML = "";
             // content.style.display ="";
+             msg="";
         }
     }
 
 
-    function submitFormData(event) {
-
+    function submitFormData() {
+        
+        if(msg == "") {
         // form values
-        var title = event.title.value;
-        var content = event.content.value;
-        var category = event.category.value;
-        var fileImage = event.fileImage.files[0];
+        var title2 = title.value;
+        var content2 = content.value;
+        var category = document.getElementById('floatingSelect').value;
+        var fileImage = document.getElementById('formFileLg').files[0];
 
         var data = new FormData();
-        data.append('title', title);
-        data.append('content', content);
+        data.append('title', title2);
+        data.append('content', content2);
         data.append('option', category);
         data.append('fileImage', fileImage);
 
@@ -90,11 +100,20 @@
 
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
-                alertify.alert('Post is created.',()=>{(window.location.href = "./index.php")});
+                if(http.responseText == "true") {
+                alertify.alert('Ready to rock','Post is created.',()=>{(window.location.href = "../index.php")});
                 // window.location.href = './index.php';
                 console.log(http.responseText);
+                } else {
+                    alertify.alert('Post is not  created.',()=>{(alertify.set('notifier','position', 'top-right'), alertify.error('fill all details'))});
+                    console.log(http.responseText);
+                }
             }
         }
         http.send(data);
+    }else {
+        alertify.alert('Enter first data',()=>{(alertify.set('notifier','position', 'top-right'), alertify.error('fill all details'))});
     }
+   
+}
 </script>

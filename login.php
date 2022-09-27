@@ -64,6 +64,7 @@ session_start();
 </section>
 <!-- Section: Design Block -->
 </div>
+<script>document.title = "Blog-Login";</script>
 <?php include './footer.php' ?>
 <script>
     function preventBack() {

@@ -16,9 +16,9 @@ class Blog extends Database
 
     public function readPost($id = null)
     {
-        $sql = "SELECT * FROM `post`";
+        $sql = "SELECT * FROM `post` ";
         if ($id) {
-            $sql .= " WHERE `post_id`='$id'";
+            $sql .= " WHERE `post_id`='$id' ORDER BY `post_id` DESC";
         }
         $query = $this->conn->query($sql);
         return $query;
@@ -34,7 +34,7 @@ class Blog extends Database
 
     public function author($id)
     {
-        $sql = "SELECT * FROM `author` WHERE `author_id`='$id'";
+        $sql = "SELECT * FROM `author` WHERE  `author_id`='$id'";
         $query = $this->conn->query($sql);
         return $query;
     }
@@ -69,11 +69,11 @@ class Blog extends Database
     {
         $sql = "INSERT INTO `post`(`author_id`, `title`, `description`, `image`, `cat_id`) VALUES('$id','$title','$content','$fileName','$category')";
         $query = $this->conn->query($sql);
-        print_r($sql); exit();
+
         if ($query) {
-            echo "success";
+            return true;
         } else {
-            echo "not enterd";
+            return false;
         }
     }
 
@@ -83,9 +83,9 @@ class Blog extends Database
         $results_per_page = 3;
 
         //find the total number of results stored in the database  
-        $query = "SELECT * from `post`";
+        $query = "SELECT * from `post` ORDER BY `post_id` DESC";
         if($id) {
-            $query .=" WHERE `cat_id`='$id'";
+            $query .=" WHERE `cat_id`='$id' ";
         }
         $result = $this->conn->query($query);
         $number_of_result = $result->num_rows;
@@ -104,7 +104,7 @@ class Blog extends Database
         $page_first_result = ($page - 1) * $results_per_page;
 
         //retrieve the selected results from database   
-        $query = "SELECT *FROM `post` LIMIT " . $page_first_result . ',' . $results_per_page;
+        $query = "SELECT *FROM `post` ORDER BY `post_id` DESC LIMIT " . $page_first_result . ',' . $results_per_page ;
         $result = $this->conn->query($query);
         echo '<nav aria-label="Page navigation example">';
         echo '<ul class="pagination">';

@@ -51,7 +51,7 @@ if (isset($_GET['cat_id'])) {
                                 </div>
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>
-                                <div class="card-footer text-muted my-1">By <a href="./profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
+                                <div class="card-footer text-muted my-1">By <a href="./Post/profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
                                     <?php echo "  " . date('F j , Y', strtotime($result['timestamp'])); ?>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ if (isset($_GET['cat_id'])) {
                                 </div>
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>
-                                <div class="card-footer text-muted my-1">By <a href="./profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
+                                <div class="card-footer text-muted my-1">By <a href="./Post/profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
                                     <?php echo "  " . date('F j , Y', strtotime($result['timestamp'])); ?>
                                 </div>
                             </div>
@@ -115,5 +115,5 @@ if (isset($_GET['cat_id'])) {
     </div>
 
 </div>
-
+<script>document.title = "Blog-Home";</script>
 <?php include_once('./footer.php'); ?>

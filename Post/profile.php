@@ -9,12 +9,12 @@ if (isset($_GET['pid'])) {
     $pid = $_GET['pid'];
     $blog = new Blog();
     $author = $blog->author($pid);
-    
+
     $authorData = $author->fetch_assoc();
     $id = $authorData['author_id'];
     $n = $blog->count($id);
     $num = $n->num_rows;
-  ?>
+?>
     <div class="container my-5">
         <div class="card p-5 shadow-lg p-3 mb-5 bg-white rounded">
             <h3 class="text-center mb-3 fw-bold">Your Profile</h3>
@@ -122,4 +122,5 @@ if (isset($_GET['aid'])) {
 
         <?php }
         ?>
+        <script>document.title = "Blog-Profile";</script>
         <?php include_once('../footer.php');; ?>
