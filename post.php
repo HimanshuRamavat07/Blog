@@ -17,7 +17,7 @@ $author = $a->fetch_assoc();
     <div class="card-body">
         <h5 class="card-title fw-bold"><?php echo $result['title']; ?></h5>
         <p class="card-text"><?php echo $result['description']; ?></p>
-        <p class="card-text"><small class="text-muted">By <?php echo " ".$author['author_name']." "; ?>Posted On
+        <p class="card-text"><small class="text-muted">By <?php echo " <br>".$author['author_name']."<br> "; ?>Posted On
                         <?php echo "  ".date('F j,Y',strtotime($result['timestamp'])); ?></small></p>
     </div>
 </div>

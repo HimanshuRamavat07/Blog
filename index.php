@@ -8,6 +8,7 @@ if (!isset($_SESSION['user'])) {
 <?php include_once('./header.php'); ?>
 <?php
 
+
 $blog = new Blog();
 $r = $blog->readPost();
 
