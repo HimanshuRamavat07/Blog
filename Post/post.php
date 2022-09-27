@@ -1,10 +1,10 @@
 <?php session_start(); ?>
 <?php include_once('../Config/connection.php') ?>
 <?php include_once('../App/function.php') ?>
-<?php include_once('../header.php'); 
+<?php include_once('../header.php');
 ?>
 
-<?php 
+<?php
 $aid = $_GET['aid'];
 $blog = new Blog();
 $r = $blog->readPost($aid);
@@ -20,9 +20,9 @@ $author = $a->fetch_assoc();
         <h5 class="card-title fw-bold"> <i class="bi bi-quote pe-2 mx-2"><?php echo $result['title']; ?></i></h5>
         <p class="card-text"><?php echo $result['description']; ?></p>
         <p class="card-text"><small class="text-muted">By <?php echo " ".$author['author_name']." "; ?>Posted On
-                        <?php echo "  ".date('F j,Y',strtotime($result['timestamp'])); ?></small></p>
+        <?php echo "  ".date('F j,Y', strtotime($result['timestamp'])); ?></small></p>
     </div>
 </div>
 </div>
 <script>document.title = "Blog-Post";</script>
-<?php include_once('../footer.php'); ;?>
+<?php include_once('../footer.php'); ?>

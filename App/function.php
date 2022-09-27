@@ -65,7 +65,7 @@ class Blog extends Database
         return $query;
     }
 
-    public function addPost($id,$title, $content, $category, $fileName)
+    public function addPost($id, $title, $content, $category, $fileName)
     {
         $sql = "INSERT INTO `post`(`author_id`, `title`, `description`, `image`, `cat_id`) VALUES('$id','$title','$content','$fileName','$category')";
         $query = $this->conn->query($sql);
@@ -77,53 +77,45 @@ class Blog extends Database
         }
     }
 
-    public function pagination($id=null)
+    public function pagination($id = null)
     {
 
         $results_per_page = 3;
 
-        //find the total number of results stored in the database  
+        //find the total number of results stored in the database
         $query = "SELECT * from `post` ORDER BY `post_id` DESC";
-        if($id) {
+        if ($id) {
             $query .=" WHERE `cat_id`='$id' ";
         }
         $result = $this->conn->query($query);
         $number_of_result = $result->num_rows;
 
-        //determine the total number of pages available  
+        //determine the total number of pages available
         $number_of_page = ceil($number_of_result / $results_per_page);
 
-        //determine which page number visitor is currently on  
+        //determine which page number visitor is currently on
         if (!isset($_GET['page'])) {
             $page = 1;
         } else {
             $page = $_GET['page'];
         }
-
-        //determine the sql LIMIT starting number for the results on the displaying page  
+        $new = $page;
         $page_first_result = ($page - 1) * $results_per_page;
 
-        //retrieve the selected results from database   
         $query = "SELECT *FROM `post` ORDER BY `post_id` DESC LIMIT " . $page_first_result . ',' . $results_per_page ;
         $result = $this->conn->query($query);
         echo '<nav aria-label="Page navigation example">';
         echo '<ul class="pagination">';
-        echo '<li class="page-item"><a class="page-link" href="#">Previous</a></li>';
+        echo '<li class="page-item"><a class="page-link" href="index.php?page=' . (($page-1) == 0 ? $page= 1:($page-1)) . '">Previous</a></li>';
+
         for ($page = 1; $page <= $number_of_page; $page++) {
             echo '<li class="page-item"><a class="page-link" href="index.php?page=' . $page . '">' . $page . ' </a></li>';
-            // echo '<a href = "index.php?page=' . $page . '">' . $page . ' </a>';
         }
         echo '</ul">';
-        echo '<li class="page-item"><a class="page-link" href="index.php?page=' . $page . '">Next</a></li>';
+
+        echo '<li class="page-item"><a class="page-link" href="index.php?page=' . (($new+1) > $number_of_page ? $new = $number_of_page : ($new+1) ). '">Next</a></li>';
+
         echo '</nav>';
         return $result;
-        //display the retrieved result on the webpage  
-        // while ($row = $result->fetch_assoc()) {
-        //     echo $row['post_id'] . ' ' . $row['title'] . '</br>';
-        // }
-
-
-        //display the link of the pages in URL  
-
     }
 }

@@ -14,14 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
         if (!empty($_FILES["fileImage"]["name"])) {
-            // Allow certain file formats
             // echo $title;
             // echo $content;
             $allowTypes = array('jpg', 'png', 'jpeg');
             if (in_array($fileType, $allowTypes)) {
-                // Upload file to server
+ 
                 if (move_uploaded_file($_FILES["fileImage"]["tmp_name"], $targetFilePath)) {
-                    // Insert image file name into database
+   
                     // echo "added to folder"; exit();
                     $blog->addPost($id,$title, $content, $option, $fileName);
                     echo "true";
@@ -37,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $statusMsg = 'Please select a file to upload.';
         }
 
-        // Display status message
         echo $statusMsg;
     }
 exit;

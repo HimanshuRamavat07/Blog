@@ -123,4 +123,4 @@ if (isset($_GET['aid'])) {
         <?php }
         ?>
         <script>document.title = "Blog-Profile";</script>
-        <?php include_once('../footer.php');; ?>
+        <?php include_once('../footer.php'); ?>
