@@ -11,6 +11,7 @@ $r = $blog->readPost($aid);
 $result = $r->fetch_assoc();
 $a = $blog->postAuthor($aid);
 $author = $a->fetch_assoc();
+
 ?>
 
 <div class="container my-5">
@@ -19,8 +20,10 @@ $author = $a->fetch_assoc();
     <div class="card-body">
         <h5 class="card-title fw-bold"> <i class="bi bi-quote pe-2 mx-2"><?php echo $result['title']; ?></i></h5>
         <p class="card-text"><?php echo $result['description']; ?></p>
-        <p class="card-text"><small class="text-muted">By <?php echo " ".$author['author_name']." "; ?>Posted On
-        <?php echo "  ".date('F j,Y', strtotime($result['timestamp'])); ?></small></p>
+        <p class="card-text"> <small class="text-muted"><?php $tag= $blog->tagName($aid); $val = $tag->fetch_assoc(); ?> <span class="badge  bg-dark text-light new"><?php echo $val['tag_name'];  ?></span><br><small class="text-muted"> By <?php echo "<br> ".$author['author_name']." <br>"; ?>Posted On
+        <?php echo "  ".date('F j,Y', strtotime($result['timestamp'])); ?></small>
+   
+</small></p>
     </div>
 </div>
 </div>

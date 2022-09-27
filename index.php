@@ -40,26 +40,33 @@ if (isset($_GET['cat_id'])) {
                                                                                 echo $category['cat_title']; ?> </span>
 
                                 </div>
-                                <img src="./Upload/<?php echo $result['image']; ?>" class="card-img-top" alt="..." style="height: 200px;">
+                                <img src="./Upload/<?php echo $result['image']; ?>" class="card-img-top" alt="Post image" style="height: 200px;">
+
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold"><?php echo $result['title']; ?></h5>
+                                    <h5 class="card-title fw-bold"><?php echo $result['title']; ?>
+                                    <?php $tag= $blog->tagName($id); $val = $tag->fetch_assoc(); ?> <span class="badge  bg-dark text-light new"><?php echo $val['tag_name']; ?></span>
+                                    </h5>
                                     <p class="card-text" id="text">
                                         <?php $pos = strpos($result['description'], ' ', 150);
                                         echo substr($result['description'], 0, $pos) . ".....";  ?>
                                     </p>
+
                                     <a href="./Post/post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
                                 </div>
+
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>
                                 <div class="card-footer text-muted my-1">By <a href="./Post/profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
                                     <?php echo "  " . date('F j , Y', strtotime($result['timestamp'])); ?>
                                 </div>
+
                             </div>
                         </div>
                     <?php   } ?>
 
                 </div>
             <?php } ?>
+
             <?php if (isset($_GET['cat_id'])) { ?>
                 <div class="row">
                     <?php while ($result = $r->fetch_assoc()) {
@@ -72,24 +79,29 @@ if (isset($_GET['cat_id'])) {
                                                                                 echo $category['cat_title']; ?> </span>
 
                                 </div>
-                                <img src="./Upload/<?php echo $result['image']; ?>" class="card-img-top" alt="..." style="height: 200px;">
+
+                                <img src="./Upload/<?php echo $result['image']; ?>" class="card-img-top" alt="Post image" style="height: 200px;">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold"><?php echo $result['title']; ?></h5>
+                                <h5 class="card-title fw-bold"><?php echo $result['title']; ?>
+                                    <?php $tag= $blog->tagName($id); $val = $tag->fetch_assoc(); ?> <span class="badge  bg-dark text-light new"><?php echo $val['tag_name']; ?></span>
+                                    </h5>
                                     <p class="card-text" id="text">
                                         <?php $pos = strpos($result['description'], ' ', 300);
                                         echo substr($result['description'], 0, $pos) . ".....";  ?>
                                     </p>
+
                                     <a href="./Post/post.php?aid=<?php echo $result['post_id']; ?>" class="btn btn-primary">Read More</a>
                                 </div>
+
                                 <?php $a = $blog->postAuthor($id);
                                 $author = $a->fetch_assoc(); ?>
                                 <div class="card-footer text-muted my-1">By <a href="./Post/profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $author['author_name']; ?> </a>On
                                     <?php echo "  " . date('F j , Y', strtotime($result['timestamp'])); ?>
                                 </div>
+
                             </div>
                         </div>
                     <?php   } ?>
-
                 </div>
             <?php   } ?>
         </div>
@@ -99,21 +111,16 @@ if (isset($_GET['cat_id'])) {
                     <h5 class="text-center fw-bold">category</h5>
                     <div class="list-group mx-3 my-2">
                         <a class="list-group-item list-group-item-action my-1 mx-1" href="./index.php">All</a>
+
                         <?php while ($category = $cat->fetch_array()) { ?>
                             <a class="list-group-item list-group-item-action my-1 mx-1" href="./index.php?cat_id=<?php echo $category['cat_id']; ?>"><?php echo $category['cat_title']; ?></a>
                         <?php }   ?>
 
                     </div>
                 </div>
-
             </div>
         </div>
-
-
-
-
     </div>
-
 </div>
 <script>document.title = "Blog-Home";</script>
 <?php include_once('./footer.php'); ?>

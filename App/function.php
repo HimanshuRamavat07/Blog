@@ -6,7 +6,7 @@ class Blog extends Database
     {
         parent::__construct();
     }
-
+    //For a login page:
     public function signin($email)
     {
         $query = "SELECT * FROM `author` WHERE author_email = '$email'";
@@ -14,6 +14,7 @@ class Blog extends Database
         return $res;
     }
 
+    //Read all post:
     public function readPost($id = null)
     {
         $sql = "SELECT * FROM `post` ";
@@ -24,6 +25,7 @@ class Blog extends Database
         return $query;
     }
 
+    //Filter post using category id:
     public function filterPost($id)
     {
         $sql = "SELECT * FROM `post` INNER JOIN `category` ON category.cat_id=post.cat_id WHERE category.cat_id='$id'";
@@ -31,13 +33,16 @@ class Blog extends Database
         $query = $this->conn->query($sql);
         return $query;
     }
-
+    
+    //For author:
     public function author($id)
     {
         $sql = "SELECT * FROM `author` WHERE  `author_id`='$id'";
         $query = $this->conn->query($sql);
         return $query;
     }
+
+    //For perticular post author:
     public function postAuthor($id)
     {
         $sql = "SELECT * FROM `author` INNER JOIN `post` ON post.author_id=author.author_id";
@@ -49,6 +54,7 @@ class Blog extends Database
         return $query;
     }
 
+    //For read the catagory :
     public function catagoryRead($id = null)
     {
         $sql = "SELECT * FROM  `category` ";
@@ -58,6 +64,8 @@ class Blog extends Database
         $query = $this->conn->query($sql);
         return $query;
     }
+
+    //count the value of how many blog user write:
     public function count($id)
     {
         $sql = "SELECT * FROM  `post` WHERE `author_id` = '$id' ";
@@ -65,18 +73,24 @@ class Blog extends Database
         return $query;
     }
 
-    public function addPost($id, $title, $content, $category, $fileName)
+    //For creating new post:
+    public function addPost($id, $title, $content, $category, $fileName,$checkedValue)
     {
         $sql = "INSERT INTO `post`(`author_id`, `title`, `description`, `image`, `cat_id`) VALUES('$id','$title','$content','$fileName','$category')";
-        $query = $this->conn->query($sql);
-
-        if ($query) {
+                
+        $query = $this->conn->query($sql); 
+        $newId = $this->conn->insert_id;
+        $sql2 = "INSERT INTO `tag` (`tag_name`,`post_id`) VALUES('$checkedValue','$newId');";
+        $query2 = $this->conn->query($sql2); 
+        // print_r($sql2);
+        if ($query2) {
             return true;
         } else {
             return false;
         }
     }
 
+    //For pagination:
     public function pagination($id = null)
     {
 
@@ -117,5 +131,10 @@ class Blog extends Database
 
         echo '</nav>';
         return $result;
+    }
+    public function tagName($id) {
+        $sql = "SELECT * FROM `tag` WHERE `post_id`='$id'";
+        $query = $this->conn->query($sql);
+        return $query;
     }
 }

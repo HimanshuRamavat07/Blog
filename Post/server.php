@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (move_uploaded_file($_FILES["fileImage"]["tmp_name"], $targetFilePath)) {
    
                     // echo "added to folder"; exit();
-                    $blog->addPost($id,$title, $content, $option, $fileName);
+                    $blog->addPost($id,$title, $content, $option, $fileName,$checkedValue);
                     echo "true";
                     //$insert = mysqli_query($conn, "INSERT into image (filename) VALUES ('$fileName')");
 
