@@ -3,44 +3,68 @@
 <?php include_once('../App/function.php') ?>
 
 <?php include_once('../header.php'); ?>
+
+<?php 
+
+    $id = $_GET['uid'];
+    $blog = new Blog();
+    $read = $blog ->readPost($id);
+    $result = $read->fetch_assoc();
+?>
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8 my-5">
         <div class="card-header" style="border-radius:10px ;">
             <form class=" mx-5 my-5" enctype="multipart/form-data" action="javascript:void(0);" id="frmdata">
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" id="floatingTitle" name="title" placeholder="Add title">
+                    <input type="hidden" name="uid" id="uid" value="<?php echo $id ?>">
+                    <input type="text" class="form-control" id="floatingTitle" name="title" value="<?php echo $result['title']; ?>">
                     <label for="floatingTitle" class="form-label">Title</label>
                     <div id="title_error" class="form-text text-danger"></div>
                 </div>
                 <div class="mb-3 form-floating">
-                    <textarea class="form-control" placeholder="Add blog description" id="floatingTextarea2" name="content" style="height: 400px"></textarea>
+                    <textarea class="form-control" placeholder="Add blog description" id="floatingTextarea2" name="content" style="height: 400px"><?php echo $result['description']; ?></textarea>
                     <label for="floatingTextarea2">Description</label>
                     <div id="content_error" class="form-text text-danger"></div>
                 </div>
                 <div class=" mb-3">
                     <label for="floatingSelect " class="form-label">Choose Blog category</label>
+                    <?php $categorys = explode(',',$result['category']);   ?>
                     <select class="js-example-basic-multiple2 form-select" multiple="multiple" id="floatingSelect" aria-label=" label select example" name="category">
                         <?php $cat1 = new Blog();
                         $cat = $cat1->catagoryRead();
-                        while ($category = $cat->fetch_array()) { ?>
-                            <option value="<?php echo $category['cat_title']; ?>" class="newselect"><?php echo $category['cat_title']; ?></option>
-                        <?php }   ?>
+                        while ($category = $cat->fetch_array()) { 
+                           if(in_array($category['cat_title'],$categorys)) {
+                            ?> <option value="<?php echo $category['cat_title']; ?>" selected><?php echo $category['cat_title']; ?></option>
+                            <?php }else { ?>
+                            <option value="<?php echo $category['cat_title']; ?>"><?php echo $category['cat_title']; ?></option>
+                        <?php } }  ?>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="floatingSelect2" class="form-label">Tag</label>
+                    <?php $tags = explode(',',$result['tag']);   ?>
                     <select class="js-example-basic-multiple1 form-select" multiple="multiple" id="floatingSelect2" aria-label=" label select example" name="tag">
+                        
                         <?php $tag1 = new Blog();
                         $tag2 = $tag1->tagRead();
-                        while ($tag = $tag2->fetch_array()) { ?>
+                        while ($tag = $tag2->fetch_array()) { 
+                            if(in_array($tag['tag_name'],$tags)) {
+                            ?> <option value="<?php echo $tag['tag_name']; ?>" selected><?php echo $tag['tag_name']; ?></option>
+                            <?php }else { ?>
                             <option value="<?php echo $tag['tag_name']; ?>"><?php echo $tag['tag_name']; ?></option>
-                        <?php }   ?>
+                        <?php } }  ?>
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="row">
+                <div class="m-3 col-md-3">
+                <img src="../Upload/<?php echo $result['image']; ?>" alt="" width="250px" height="150px">
+                </div>
+                
+                <div class="mb-3 my-5 col-md-8">
                     <label for="formFileLg" class="form-label">Add feature image of blog</label>
-                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="fileImage">
+                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="fileImage" >
+                </div>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-outline-secondary" id="submit" name="submit" onclick="submitFormData()">Submit</button>
@@ -93,6 +117,7 @@
 
         if (msg == "") {
 
+            var uid = document.getElementById('uid').value;
             var title2 = title.value;
             var content2 = content.value;
             let category = $("#floatingSelect").val().toString();
@@ -108,19 +133,19 @@
 
             var http = new XMLHttpRequest();
 
-            var url = 'server.php';
+            var url = 'server.php?uid='+uid;
             http.open('POST', url, true);
 
             http.onreadystatechange = function() {
                 if (http.readyState == 4 && http.status == 200) {
                     if (http.responseText == "true") {
-                        alertify.alert('Ready to rock', 'Post is created.', () => {
+                        alertify.alert('Ready to rock', 'Post is Updated.', () => {
                             (window.location.href = "../index.php")
                         });
                         // window.location.href = './index.php';
                         console.log(http.responseText);
                     } else {
-                        alertify.alert('Post is not  created.', () => {
+                        alertify.alert('Post is not Updated.', () => {
                             (alertify.set('notifier', 'position', 'top-right'), alertify.error('fill all details'))
                         });
                         console.log(http.responseText);

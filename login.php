@@ -86,13 +86,14 @@ if (isset($_POST['submit'])) {
     
     $row = $signin->fetch_assoc();
     if ($signin->num_rows > 0) {
-        if ($password == $row['author_password']) {
-            $_SESSION['id'] = $row['author_id'];
-            $_SESSION['user'] = $row['author_name'];
-           
+        if ($password == $row['user_password']) {
+            $_SESSION['id'] = $row['user_id'];
+            $_SESSION['user'] = $row['user_name'];
+            $_SESSION['type'] = $row['type'];
+            
 ?>
             <script>
-                alertify.alert('Welcome  <?php echo $row['author_name']; ?> :' ,"successfully login",()=>{(window.location.href = "./index.php")});
+                alertify.alert('Welcome  <?php echo $row['user_name']; ?> :' ,"successfully login",()=>{(window.location.href = "./index.php")});
                 
             </script>
            

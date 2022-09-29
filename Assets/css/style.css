@@ -44,3 +44,15 @@
   font-weight: 500;
   
 }
+.card-footer .btn a{
+  text-decoration: none !important;
+
+}
+.card-footer  .btn-secondary a{
+  color: whitesmoke  !important;
+
+}
+.card-footer  .btn-outline-danger a{
+  color: black  !important;
+
+}

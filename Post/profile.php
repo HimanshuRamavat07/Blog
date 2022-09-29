@@ -8,10 +8,10 @@
 if (isset($_GET['pid'])) {
     $pid = $_GET['pid'];
     $blog = new Blog();
-    $author = $blog->author($pid);
+    $author = $blog->user($pid);
 
     $authorData = $author->fetch_assoc();
-    $id = $authorData['author_id'];
+    $id = $authorData['user_id'];
     $n = $blog->count($id);
     $num = $n->num_rows;
 ?>
@@ -25,10 +25,10 @@ if (isset($_GET['pid'])) {
                         <div class="card testimonial-card">
                             <div class="card-up" style="background-color: #7a81a8;"></div>
                             <div class="avatar mx-auto bg-white">
-                                <img src="../Upload/<?php echo $authorData['author_img']; ?>" class="rounded-circle img-fluid" />
+                                <img src="../Upload/<?php echo $authorData['user_img']; ?>" class="rounded-circle img-fluid" />
                             </div>
                             <div class="card-body">
-                                <h4 class="mb-4"><?php echo $authorData['author_name']; ?></h4>
+                                <h4 class="mb-4"><?php echo $authorData['user_name']; ?></h4>
                                 <hr />
                                 <div class="d-flex justify-content-around rounded-3 p-2 mb-2" style="background-color: #efefef;">
                                     <div>
@@ -66,9 +66,9 @@ if (isset($_GET['pid'])) {
 if (isset($_GET['aid'])) {
     $aid = $_GET['aid'];
     $blog = new Blog();
-    $a = $blog->postAuthor($aid);
+    $a = $blog->postUser($aid);
     $data = $a->fetch_assoc();
-    $id = $data['author_id'];
+    $id = $data['user_id'];
     $n = $blog->count($id);
     $num = $n->num_rows;
     ?>
@@ -82,10 +82,10 @@ if (isset($_GET['aid'])) {
                             <div class="card testimonial-card">
                                 <div class="card-up" style="background-color: #7a81a8;"></div>
                                 <div class="avatar mx-auto bg-white">
-                                    <img src="../Upload/<?php echo $data['author_img']; ?>" class="rounded-circle img-fluid" />
+                                    <img src="../Upload/<?php echo $data['user_img']; ?>" class="rounded-circle img-fluid" />
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="mb-4"><?php echo $data['author_name']; ?></h4>
+                                    <h4 class="mb-4"><?php echo $data['user_name']; ?></h4>
                                     <hr />
                                     <div class="d-flex justify-content-around rounded-3 p-2 mb-2" style="background-color: #efefef;">
                                         <div>

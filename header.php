@@ -16,7 +16,9 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
   <!-- Bootstrap theme -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <title>Blog:Home</title>
 </head>
 
@@ -30,42 +32,59 @@
           <?php if (isset($_SESSION['user'])) {
             if ($_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/add_post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/profile.php") {
           ?>
-            <a href="../index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-              <i class="bi-stickies fs-1"></i>
-            </a>
-
-            <div class="dropdown">
-              <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi-person-circle h2">
-                </i>
+              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                <i class="bi-stickies fs-1"></i>
               </a>
-              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                <li><a class="dropdown-item" href="./profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-                <li><a class="dropdown-item" href="../logout.php">logout</a></li>
 
-              </ul>
+              <div class="dropdown">
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi-person-circle h2">
+                  </i>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                  <li><a class="dropdown-item" href="./profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
+                  <li><a class="dropdown-item" href="../logout.php">logout</a></li>
 
-            </div>
-          <?php } else { ?>
-            <a href="./index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-              <i class="bi-stickies fs-1"></i>
-            </a>
-            <div class="dropdown">
-              <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi-person-circle h2">
-                </i>
+                </ul>
+
+              </div>
+            <?php } else { ?>
+              <a href="./index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                <i class="bi-stickies fs-1"></i>
               </a>
-              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                <li><a class="dropdown-item" href="./Post/profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-                <li><a class="dropdown-item" href="./logout.php">logout</a></li>
+              <div class="dropdown">
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi-person-circle h2">
+                  </i>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                  <li><a class="dropdown-item" href="./Post/profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
+                  <li><a class="dropdown-item" href="./logout.php">logout</a></li>
 
-              </ul>
+                </ul>
 
-            </div>
+              </div>
 
 
-          <?php }} ?>
+          <?php }
+          } ?>
 
+          <?php if(isset($_SESSION['type'])) {
+            if($_SESSION['type'] == 1) {
+            ?>
+          <div class="dropdown">
+            <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser4" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
+            <i class="bi bi-gear h2"></i>
+              </i>
+            </a>
+            <ul class="dropdown-menu text-small shadow text-center " aria-labelledby="dropdownUser4" >
+              <li class="dropdown-item"> <a href="./display_category_tag.php"> Category and Tag </a></li>
+              <li class="dropdown-item"><a href="./Post/add_category.php"> Add Category </a></li>
+              <li class="dropdown-item"><a href="./Post/add_tag.php"> Add Tag </a></li>
+            </ul>
+
+          </div>
+          <?php } }?>
         </div>
       </div>
       <div class="col-sm p-3 min-vh-100">
