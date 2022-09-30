@@ -1,0 +1,2 @@
+# Example 1: redirect errors to html files
+ErrorDocument 404 /404.php 

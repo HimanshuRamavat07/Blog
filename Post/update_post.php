@@ -4,12 +4,24 @@
 
 <?php include_once('../header.php'); ?>
 
-<?php 
+<?php
 
-    $id = $_GET['uid'];
-    $blog = new Blog();
-    $read = $blog ->readPost($id);
-    $result = $read->fetch_assoc();
+$id = $_GET['uid'];
+$blog = new Blog();
+$read = $blog->readPost($id);
+$categoryFilter = $blog->catagoryRead($id);
+$category = $blog->catagoryRead();
+$result = $read->fetch_assoc();
+$str = "";
+
+while ($readCategory = $category->fetch_assoc()) {
+    $str .= $readCategory['category_title'] . ",";
+}
+echo $str;
+$data = explode(',', $str);
+echo "<br>";
+print_r($data);
+
 ?>
 <div class="row">
     <div class="col-md-2"></div>
@@ -29,42 +41,44 @@
                 </div>
                 <div class=" mb-3">
                     <label for="floatingSelect " class="form-label">Choose Blog category</label>
-                    <?php $categorys = explode(',',$result['category']);   ?>
                     <select class="js-example-basic-multiple2 form-select" multiple="multiple" id="floatingSelect" aria-label=" label select example" name="category">
-                        <?php $cat1 = new Blog();
-                        $cat = $cat1->catagoryRead();
-                        while ($category = $cat->fetch_array()) { 
-                           if(in_array($category['cat_title'],$categorys)) {
-                            ?> <option value="<?php echo $category['cat_title']; ?>" selected><?php echo $category['cat_title']; ?></option>
-                            <?php }else { ?>
-                            <option value="<?php echo $category['cat_title']; ?>"><?php echo $category['cat_title']; ?></option>
-                        <?php } }  ?>
+                        <?php while ($category2 = $categoryFilter->fetch_assoc()) {
+                            if (in_array($category2['category_title'], $data)) { ?>
+
+                                <option value="<?php echo $category2['category_id']; ?>" selected><?php echo $category2['category_title']; ?></option>
+
+                            <?php  } else { ?> <option value="<?php echo $category2['category_id']; ?>"><?php echo $category2['category_title']; ?></option> <?php }
+                                                                                                                                                        } ?>
+
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="floatingSelect2" class="form-label">Tag</label>
-                    <?php $tags = explode(',',$result['tag']);   ?>
+                    <?php $tags = explode(',', $result['tag']);   ?>
                     <select class="js-example-basic-multiple1 form-select" multiple="multiple" id="floatingSelect2" aria-label=" label select example" name="tag">
-                        
+
                         <?php $tag1 = new Blog();
                         $tag2 = $tag1->tagRead();
-                        while ($tag = $tag2->fetch_array()) { 
-                            if(in_array($tag['tag_name'],$tags)) {
-                            ?> <option value="<?php echo $tag['tag_name']; ?>" selected><?php echo $tag['tag_name']; ?></option>
-                            <?php }else { ?>
-                            <option value="<?php echo $tag['tag_name']; ?>"><?php echo $tag['tag_name']; ?></option>
-                        <?php } }  ?>
+                        while ($tag = $tag2->fetch_array()) {
+                            if (in_array($tag['tag_name'], $tags)) {
+                        ?> <option value="<?php echo $tag['tag_name']; ?>" selected><?php echo $tag['tag_name']; ?></option>
+                            <?php } else { ?>
+                                <option value="<?php echo $tag['tag_name']; ?>"><?php echo $tag['tag_name']; ?></option>
+                        <?php }
+                        }  ?>
                     </select>
                 </div>
                 <div class="row">
-                <div class="m-3 col-md-3">
-                <img src="../Upload/<?php echo $result['image']; ?>" alt="" width="250px" height="150px">
-                </div>
-                
-                <div class="mb-3 my-5 col-md-8">
-                    <label for="formFileLg" class="form-label">Add feature image of blog</label>
-                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="fileImage" >
-                </div>
+                    <div class="m-3 col-md-3">
+                        <img src="../Upload/<?php echo $result['image']; ?>" alt="" width="250px" height="150px">
+                    </div>
+
+                    <div class="mb-3 my-5 col-md-8">
+
+                        <label for="formFileLg" class="form-label">Add feature image of blog</label>
+                        <input type="hidden" name="fileImage" value="<?php echo $result['feature_image']; ?>">
+                        <input class="form-control form-control-lg" id="formFileLg" type="file" name="fileImage">
+                    </div>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-outline-secondary" id="submit" name="submit" onclick="submitFormData()">Submit</button>
@@ -123,7 +137,7 @@
             let category = $("#floatingSelect").val().toString();
             let tag = $("#floatingSelect2").val().toString();
             var fileImage = document.getElementById('formFileLg').files[0];
-           
+
             var data = new FormData();
             data.append('title', title2);
             data.append('content', content2);
@@ -133,7 +147,7 @@
 
             var http = new XMLHttpRequest();
 
-            var url = 'server.php?uid='+uid;
+            var url = 'server.php?uid=' + uid;
             http.open('POST', url, true);
 
             http.onreadystatechange = function() {

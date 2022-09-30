@@ -52,15 +52,34 @@ class Blog extends Database
     * @param string $tag tag of post
     *  @param string $fileName Image of post
     */
-    public function addPost($id, $title, $content, $category, $tag, $fileName)
+    // public function addPost($id, $title, $content, $category, $tag, $fileName)
+    public function addPost($param,$category,$tag)
     {
-        $sql = "INSERT INTO `post`(`user_id`, `title`, `description`, `image`, `category`,`tag`) VALUES('$id','$title','$content','$fileName','$category','$tag')";
+        $key = implode(' , ',array_keys($param));
+        $value = implode(" ', '",$param);
+        $category_id = explode(',', $category);
+        $tag_id = explode(',', $tag);
+
+        $sql = "INSERT INTO `post`($key) VALUES('$value')";
         $query = $this->conn->query($sql);
+        $post_id = $this->conn->insert_id;
         if ($query) {
-            return true;
+            for($i=0;$i<$param['count_category'];$i++) {
+                $sql2 = "INSERT INTO `post_category`(`post_id`,`category_id`) VALUES ($post_id,$category_id[$i])";
+                $query2 = $this->conn->query($sql2);
+            }
+            for($j=0;$j<$param['count_tag'];$j++) {
+                $sql3 = "INSERT INTO `post_tag`(`post_id`,`tag_id`) VALUES ($post_id,$tag_id[$j])";
+                $query3 = $this->conn->query($sql3);
+            }
+            // print_r($sql);
+            // print_r($sql2);
+            // print_r($sql3);
+            // return true;
         } else {
             return false;
         }
+
     }
 
     /*  
@@ -126,7 +145,7 @@ class Blog extends Database
     {
         $sql = "SELECT * FROM  `category` ";
         if ($id) {
-            $sql = "SELECT * FROM  `category` WHERE `cat_id`=$id";
+            $sql = "SELECT * FROM ((`post` INNER JOIN `post_category` ON post_category.post_id=post.post_id) INNER JOIN `category` ON category.category_id=post_category.category_id)WHERE post.post_id=$id";
         }
         $query = $this->conn->query($sql);
         return $query;
@@ -177,7 +196,7 @@ class Blog extends Database
     {
         $sql = "SELECT * FROM  `tag` ";
         if ($id) {
-            $sql = "SELECT * FROM  `tag` WHERE `tag_id`=$id";
+            $sql = "SELECT * FROM ((`post` INNER JOIN `post_tag` ON post_tag.post_id=post.post_id) INNER JOIN `tag` ON tag.tag_id=post_tag.tag_id)WHERE post.post_id=$id";
         }
         $query = $this->conn->query($sql);
         return $query;

@@ -5,38 +5,37 @@
 ?>
 
 <?php
+
 if (isset($_GET['pid'])) {
     $uid = $_SESSION['id'];
     // echo $uid;
     $aid = $_GET['pid'];
     $blog = new Blog();
-    $r = $blog->readPost($aid);
-    $result = $r->fetch_assoc();
-    $a = $blog->postUser($aid);
-    $author = $a->fetch_assoc();
-    $tag = explode(',', $result['tag']);
-    $length = count($tag);
+    $readPost = $blog->readPost($aid);
+    $result = $readPost->fetch_assoc();
+    $user = $blog->postUser($aid);
+    $author = $user->fetch_assoc();
+    $tag = $blog->tagRead($aid);
+    
 ?>
 
 
     <div class="container my-5">
         <div class="card mb-3 shadow p-3 mb-5 bg-white rounded">
-            <img src="../Upload/<?php echo $result['image']; ?>" class="card-img-top" alt="..." height="536px">
+            <img src="../Upload/<?php echo $result['feature_image']; ?>" class="card-img-top" alt="..." height="536px">
             <div class="card-body">
 
                 <h5 class="card-title fw-bold"> <i class="bi bi-quote pe-2 mx-2"><?php echo $result['title']; ?></i></h5>
 
-                <p class="card-text"><?php echo $result['description']; ?></p>
+                <?php echo $result['description']; ?>
 
                 <p class="card-text">
                     <small class="text-muted">
-                        <?php for ($i = 0; $i < $length; $i++) {
-                            echo '<span class="badge bg-dark text-light new mx-1">' . $tag[$i] . '</span>';
-                        }  ?>
+                    <?php   while($readTag= $tag->fetch_assoc() ){ echo '<span class="badge bg-dark text-light new mx-1">'.$readTag['tag_name'].'</span>'; }  ?>
                         <br>
                         <small class="text-muted mx-1"> By <?php echo "<br> " . $author['user_name'] . " <br>"; ?>
                             Posted On
-                            <?php echo "  " . date('F j,Y', strtotime($result['timestamp'])); ?>
+                            <?php echo "  ". date('F j,Y', strtotime($result['publish_date'])); ?>
                         </small>
 
                     </small>

@@ -8,8 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['uid'])) {
     include_once('../App/function.php');
     $blog = new Blog();
 
+    // echo $description;
     $id = $_SESSION['id'];
-
+    // echo $id;
     $statusMsg = "";
     $targetDir = "../Upload/";
     $fileName = basename($_FILES["fileImage"]["name"]);
@@ -17,17 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['uid'])) {
     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
     if (!empty($_FILES["fileImage"]["name"])) {
-        // echo $title;
-        // echo $content;
+    
         $allowTypes = array('jpg', 'png', 'jpeg');
         if (in_array($fileType, $allowTypes)) {
 
-            if (move_uploaded_file($_FILES["fileImage"]["tmp_name"], $targetFilePath)) {
-
-                // echo "added to folder"; exit();
-                $blog->addPost($id, $title, $content, $category, $tag, $fileName);
+           if (move_uploaded_file($_FILES["fileImage"]["tmp_name"], $targetFilePath)) {
+                $array = ['title'=>$title,'description'=>$description,'count_category'=>$count_category,'count_tag'=>$count_tag,'feature_image'=>$fileName,'user_id'=>$id];
+                
+                $blog->addPost($array,$category,$tag);
                 echo "true";
-                //$insert = mysqli_query($conn, "INSERT into image (filename) VALUES ('$fileName')");
 
             } else {
                 $statusMsg = "Sorry, there was an error uploading your file.";
@@ -42,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['uid'])) {
     echo $statusMsg;
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['uid'])) {
-    // echo "Hello";
+  
     extract($_POST);
 
     include_once('../Config/connection.php');
