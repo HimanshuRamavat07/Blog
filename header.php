@@ -47,7 +47,7 @@
           <?php if (isset($_SESSION['user'])) {
             if ($_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/add_post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/profile.php") {
               ?>
-              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none  rotate-n-15" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                 <i class="bi-stickies fs-1"></i>
               </a>
 

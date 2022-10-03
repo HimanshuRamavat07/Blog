@@ -53,10 +53,10 @@ class Blog extends Database
     *  @param string $fileName Image of post
     */
     // public function addPost($id, $title, $content, $category, $tag, $fileName)
-    public function addPost($param,$category,$tag)
+    public function addPost($param, $category, $tag)
     {
-        $key = implode(' , ',array_keys($param));
-        $value = implode(" ', '",$param);
+        $key = implode(' , ', array_keys($param));
+        $value = implode(" ', '", $param);
         $category_id = explode(',', $category);
         $tag_id = explode(',', $tag);
 
@@ -64,11 +64,11 @@ class Blog extends Database
         $query = $this->conn->query($sql);
         $post_id = $this->conn->insert_id;
         if ($query) {
-            for($i=0;$i<$param['count_category'];$i++) {
+            for ($i = 0; $i < $param['count_category']; $i++) {
                 $sql2 = "INSERT INTO `post_category`(`post_id`,`category_id`) VALUES ($post_id,$category_id[$i])";
                 $query2 = $this->conn->query($sql2);
             }
-            for($j=0;$j<$param['count_tag'];$j++) {
+            for ($j = 0; $j < $param['count_tag']; $j++) {
                 $sql3 = "INSERT INTO `post_tag`(`post_id`,`tag_id`) VALUES ($post_id,$tag_id[$j])";
                 $query3 = $this->conn->query($sql3);
             }
@@ -79,7 +79,6 @@ class Blog extends Database
         } else {
             return false;
         }
-
     }
 
     /*  
@@ -105,12 +104,36 @@ class Blog extends Database
     * @param string $tag tag of post
     *  @param string $fileName Image of post
     */
-    public function updatePost($id, $title, $content, $category, $tag, $fileName)
+    public function updatePost($param, $category, $tag, $id)
     {
-        $sql = "UPDATE `post` SET `title`='$title',`description`='$content',`category`='$category',`tag`='$tag',`image`='$fileName' WHERE `post_id`='$id'";
-        // print_r($sql);
+        foreach ($param as $key => $value) {
+            $args[] = "$key = '$value'";
+        }
+
+        $category_id = explode(',', $category);
+        $tag_id = explode(',', $tag);
+
+        $sql = "UPDATE `post` SET " . implode(',', $args) . " WHERE `post_id`='$id'";
+
         $query = $this->conn->query($sql);
-        return $query;
+
+        if ($query) {
+            $deleteCategory = "DELETE FROM `post_category` WHERE `post_id`='$id'";
+            $runCategory = $this->conn->query($deleteCategory);
+            $deleteTag = "DELETE FROM `post_tag` WHERE `post_id`='$id'";
+            $runCategory = $this->conn->query($deleteTag);
+            for ($i = 0; $i < $param['count_category']; $i++) {
+                $sql2 = "INSERT INTO `post_category`(`post_id`,`category_id`) VALUES ($id,$category_id[$i])";
+                $query2 = $this->conn->query($sql2);
+            }
+            for ($j = 0; $j < $param['count_tag']; $j++) {
+                $sql3 = "INSERT INTO `post_tag`(`post_id`,`tag_id`) VALUES ($id,$tag_id[$j])";
+                $query3 = $this->conn->query($sql3);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /*  
@@ -119,10 +142,18 @@ class Blog extends Database
     */
     public function deletePost($id)
     {
-        $sql = "DELETE FROM `post` WHERE `post_id`='$id'";
-        // print_r($sql);
-        $query = $this->conn->query($sql);
-        return $query;
+        $deleteCategory = "DELETE FROM `post_category` WHERE `post_id`='$id'";
+        $runCategory = $this->conn->query($deleteCategory);
+        $deleteTag = "DELETE FROM `post_tag` WHERE `post_id`='$id'";
+        $runCategory = $this->conn->query($deleteTag);
+        $deletePost = "DELETE FROM `post` WHERE `post_id`='$id'";
+        // print_r($deletePost);
+        $query = $this->conn->query($deletePost);
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /*  
@@ -263,9 +294,7 @@ class Blog extends Database
 
         //find the total number of results stored in the database
         $query = "SELECT * from `post` ORDER BY `post_id` DESC";
-        if ($id) {
-            $query .= " WHERE `cat_id`='$id' ";
-        }
+
         $result = $this->conn->query($query);
         $number_of_result = $result->num_rows;
 
@@ -282,6 +311,7 @@ class Blog extends Database
         $page_first_result = ($page - 1) * $results_per_page;
 
         $query = "SELECT *FROM `post` ORDER BY `post_id` DESC LIMIT " . $page_first_result . ',' . $results_per_page;
+
         $result = $this->conn->query($query);
         echo '<nav aria-label="Page navigation example">';
         echo '<ul class="pagination">';
@@ -304,6 +334,28 @@ class Blog extends Database
     public function count($id)
     {
         $sql = "SELECT * FROM  `post` WHERE `user_id` = '$id' ";
+        $query = $this->conn->query($sql);
+        return $query;
+    }
+
+    public function filterCategory($id)
+    {
+        $sql = " SELECT * FROM ((`post` INNER JOIN `post_category` ON post_category.post_id=post.post_id ) INNER JOIN `category` ON category.category_id=post_category.category_id )  WHERE category.category_id='$id' ORDER BY post.post_id DESC";
+        $query = $this->conn->query($sql);
+        return $query;
+    }
+
+    public function filterTag($id)
+    {
+        $sql = " SELECT * FROM ((`post` INNER JOIN `post_tag` ON post_tag.post_id=post.post_id ) INNER JOIN `tag` ON tag.tag_id=post_tag.tag_id )  WHERE tag.tag_id='$id' ORDER BY post.post_id DESC";
+        $query = $this->conn->query($sql);
+        return $query;
+    }
+
+    public function search($keyword)
+    {
+        $sql = "SELECT * FROM `post` WHERE `title` LIKE '%$keyword%'";
+        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
