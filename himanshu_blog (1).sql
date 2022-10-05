@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2022 at 03:53 PM
+-- Generation Time: Oct 04, 2022 at 04:10 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -66,7 +66,9 @@ INSERT INTO `comments` (`comment_id`, `user_id`, `post_id`, `comment`, `time`) V
 (3, 1, 12, 'Second Comment..', '2022-09-29 09:55:26'),
 (4, 2, 12, 'Hello World !!!!!', '2022-07-20 04:00:36'),
 (7, 2, 9, '123', '2022-09-29 10:09:43'),
-(8, 1, 9, 'New', '2022-09-30 11:48:53');
+(8, 1, 9, 'New', '2022-09-30 11:48:53'),
+(9, 3, 9, 'Hello from Ram!!!!\r\n', '2022-09-30 13:56:53'),
+(10, 1, 0, 'Hello there....', '2022-10-03 12:12:25');
 
 -- --------------------------------------------------------
 
@@ -79,6 +81,7 @@ CREATE TABLE `post` (
   `user_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `slug` varchar(200) NOT NULL,
   `publish_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `feature_image` varchar(255) NOT NULL,
   `count_category` int(11) NOT NULL,
@@ -89,11 +92,10 @@ CREATE TABLE `post` (
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`post_id`, `user_id`, `title`, `description`, `publish_date`, `feature_image`, `count_category`, `count_tag`) VALUES
-(1, 1, 'Himanshu ', 'When choosing a partner for your digital website needs, or your career you want the best. What better proof than seeing what customers and employees have to say. It would be our pleasure to introduce you to all and share their reviews about NITSAN!\n\nWhen choosing a partner for your digital website needs, or your career you want the best. What better proof than seeing what customers and employees have to say. We constantly survey our customers and staff and ask if they’re willing to say a few words. As you’ll see, many do. We’re proud of our high-quality TYPO3 and Web development services, and most proud of the culture and value we’ve delivered to these clients.\n\nIt would be our pleasure to introduce you to all!\n\nIt’s good to hear the appreciation!\nWe\'re loved Socially!\nWe make ordinary projects remarkable!', '2022-09-30 06:53:41', 'img1.jpg ', 3, 2),
-(7, 1, 'sasasas ', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. ', '2022-09-30 11:41:10', 'download (1).jpg ', 1, 1),
-(8, 1, 'Test ', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. ', '2022-09-30 11:42:56', 'blog.jpg ', 2, 1),
-(9, 1, 'New Blog ', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. ', '2022-09-30 11:47:31', 'img2.png ', 4, 5);
+INSERT INTO `post` (`post_id`, `user_id`, `title`, `description`, `slug`, `publish_date`, `feature_image`, `count_category`, `count_tag`) VALUES
+(1, 1, 'Himanshu ', 'When choosing a partner for your digital website needs, or your career you want the best. What better proof than seeing what customers and employees have to say. It would be our pleasure to introduce you to all and share their reviews about NITSAN!\n\nWhen choosing a partner for your digital website needs, or your career you want the best. What better proof than seeing what customers and employees have to say. We constantly survey our customers and staff and ask if they’re willing to say a few words. As you’ll see, many do. We’re proud of our high-quality TYPO3 and Web development services, and most proud of the culture and value we’ve delivered to these clients.\n\nIt would be our pleasure to introduce you to all!\n\nIt’s good to hear the appreciation!\nWe\'re loved Socially!\nWe make ordinary projects remarkable!', '/Post/himanshu', '2022-09-30 06:53:41', 'img1.jpg ', 3, 2),
+(9, 1, 'New Blog 3', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.', '/Post/new-blog-3', '2022-09-30 11:47:31', 'bg.jpg', 2, 2),
+(16, 1, 'Why Shopware Is a Perfect Platform To Build Online Store? ', '<p><strong><u>Shopware</u></strong>, a leading eCommerce platform in Germany, is working incredibly hard, and thats not without reason. Shopware is gaining more market share in Europe and the number of active installations is increasing rapidly.</p><p>Shopware, a leading eCommerce platform in Germany, is working incredibly hard, and thats not without reason. Shopware is gaining more market share in Europe and the number of active installations is increasing rapidly.</p><p>However, for what reason is Shopware so famous, and why it is one of the best eCommerce solutions? Let’s find out to know all about Shopware!</p><p><br></p><p>Shopware is a german open-source stage that spotlights the excitement of client experience. Shopware was laid out in 2000, and meanwhile, they have in excess of 100,000 happy Shopware users.</p><p>The incredible thing about Shopware is that the product is created by individuals who use it as it is very user-friendly and does not need hard development skills to build. Therefore, the nature of the product isnt without a doubt, extremely high yet in addition meets the most noteworthy necessities as far as to plan and innovation</p> ', '/Post/why-shopware-is-a-perfect-platform-to-build-online-store', '2022-10-03 12:00:13', 'Blog-Banner-Shopware.jpg ', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -121,13 +123,10 @@ INSERT INTO `post_category` (`id`, `post_id`, `category_id`) VALUES
 (7, 4, 2),
 (8, 5, 2),
 (9, 6, 2),
-(10, 7, 2),
-(11, 8, 6),
-(12, 8, 8),
-(13, 9, 1),
-(14, 9, 2),
-(15, 9, 6),
-(16, 9, 8);
+(29, 9, 2),
+(30, 9, 6),
+(48, 16, 1),
+(49, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -154,13 +153,10 @@ INSERT INTO `post_tag` (`id`, `post_id`, `tag_id`) VALUES
 (6, 4, 23),
 (7, 5, 23),
 (8, 6, 23),
-(9, 7, 4),
-(10, 8, 4),
-(11, 9, 1),
-(12, 9, 2),
-(13, 9, 3),
-(14, 9, 4),
-(15, 9, 23);
+(25, 9, 2),
+(26, 9, 3),
+(43, 16, 1),
+(44, 16, 3);
 
 -- --------------------------------------------------------
 
@@ -229,8 +225,7 @@ ALTER TABLE `comments`
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
-  ADD PRIMARY KEY (`post_id`),
-  ADD KEY `post_ibfk_1` (`user_id`);
+  ADD PRIMARY KEY (`post_id`);
 
 --
 -- Indexes for table `post_category`
@@ -274,25 +269,25 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `post_category`
 --
 ALTER TABLE `post_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `post_tag`
 --
 ALTER TABLE `post_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `tag`
@@ -309,12 +304,6 @@ ALTER TABLE `user`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `post_category`

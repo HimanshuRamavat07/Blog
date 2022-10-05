@@ -5,18 +5,19 @@
 ?>
 
 <?php
+if (!isset($_SERVER['PATH_INFO'])) {
+    $slug = $_SERVER['PATH_INFO'];
+    echo $slug;
 
-if (isset($_GET['pid'])) {
-    $uid = $_SESSION['id'];
-    // echo $uid;
-    $aid = $_GET['pid'];
+
+    // echo $aid;
     $blog = new Blog();
-    $readPost = $blog->readPost($aid);
+    $readPost = $blog->readPost($slug);
     $result = $readPost->fetch_assoc();
     $user = $blog->postUser($aid);
     $author = $user->fetch_assoc();
     $tag = $blog->tagRead($aid);
-    
+
 ?>
 
 
@@ -31,11 +32,13 @@ if (isset($_GET['pid'])) {
 
                 <p class="card-text">
                     <small class="text-muted">
-                    <?php   while($readTag= $tag->fetch_assoc() ){ echo '<span class="badge bg-dark text-light new mx-1">'.$readTag['tag_name'].'</span>'; }  ?>
+                        <?php while ($readTag = $tag->fetch_assoc()) {
+                            echo '<span class="badge bg-dark text-light new mx-1">' . $readTag['tag_name'] . '</span>';
+                        }  ?>
                         <br>
                         <small class="text-muted mx-1"> By <?php echo "<br> " . $author['user_name'] . " <br>"; ?>
                             Posted On
-                            <?php echo "  ". date('F j,Y', strtotime($result['publish_date'])); ?>
+                            <?php echo "  " . date('F j,Y', strtotime($result['publish_date'])); ?>
                         </small>
 
                     </small>
@@ -45,7 +48,7 @@ if (isset($_GET['pid'])) {
                 <div class="card-footer">
                     <div class="d-flex justify-content-end p-2">
                         <button class="btn btn-secondary mx-3 p-2"><a href="update_post.php?uid=<?php echo $aid; ?>"> Update Post </a></button>
-                        <button class="btn btn-outline-danger mx-3 p-2"><a href="./post.php?did=<?php echo $aid; ?>"> Delete Post </a></button>
+                        <button class="btn btn-outline-danger mx-3 p-2"><a href="./post.php?did=<?php echo $result['slug']; ?>"> Delete Post </a></button>
                     </div>
                 </div>
             <?php } ?>
@@ -117,98 +120,12 @@ if (isset($_GET['pid'])) {
         </div>
 
     </div>
-<?php } ?>
+<?php }  ?>
 <script>
     document.title = "Blog-Post";
 </script>
 <?php include_once('../footer.php'); ?>
 
-<script>
-    function submitComment() {
-
-        var content = document.getElementById('textAreaExample').value;
-
-        if (content.length >= 3) {
-
-            var uid = document.getElementById('uid').value;
-            var pid = document.getElementById('pid').value;
-
-            var data = new FormData();
-            data.append('content', content);
-            data.append('uid', uid);
-            data.append('pid', pid);
-
-            // console.log("comming......"+content+"comming......"+uid+"comming......"+pid);
-
-            var http = new XMLHttpRequest();
-
-            var url = 'comment.php';
-            http.open('POST', url, true);
-
-            http.onreadystatechange = function() {
-                if (http.readyState == 4 && http.status == 200) {
-                    if (http.responseText == "true") {
-                        alertify.alert('Ready to rock', 'Comment is added.', () => {
-                            (window.location.href = "./post.php?pid=" + pid)
-                        });
-                        // window.location.href = './index.php';
-                        console.log(http.responseText);
-                    } else {
-                        alertify.alert('Comment is not added.', () => {
-                            (alertify.set('notifier', 'position', 'top-right'), alertify.error('Try again.'))
-                        });
-                        console.log(http.responseText);
-                    }
-                }
-            }
-
-            http.send(data);
-        } else {
-
-            alertify.alert('Enter minimum 3 character.', () => {
-                (alertify.set('notifier', 'position', 'top-right'), alertify.error('Try again.'))
-            });
-        }
-
-
-    }
+<script src="../Assets/js/comment.js">
 </script>
 
-<?php if (isset($_GET['did'])) {
-    $id = $_GET['did']; ?>
-    <script>
-        alertify.confirm('This page says : ', 'Are you sure !!', function() {
-
-            var data = new FormData();
-            data.append('id', <?php echo $id; ?>);
-
-            var http = new XMLHttpRequest();
-
-            var url = './delete.php?did=<?php echo $id; ?>';
-            http.open('POST', url, true);
-
-            http.onreadystatechange = function() {
-                if (http.readyState == 4 && http.status == 200) {
-                    if (http.responseText == "true") {
-                        alertify.alert('Ready to rock', 'Post is deleted.', () => {
-                            (window.location.href = "../index.php")
-                        });
-                        // window.location.href = './index.php';
-                        console.log(http.responseText);
-                    } else {
-                        alertify.alert('Post is not deleted.', () => {
-                            (alertify.set('notifier', 'position', 'top-right'), alertify.error('Try again.'))
-                        });
-                        console.log(http.responseText);
-                    }
-                }
-            }
-            http.send(data);
-
-        }, function() {
-            window.location.href = "../index.php";
-
-        });
-    </script>
-
-<?php } ?>

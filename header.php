@@ -1,6 +1,5 @@
-<?php define("BASE_PATH",'\Himanshu\Blog') 
-?>
-<!doctype html>
+<?php define("BASE_PATH",'\Himanshu\Blog'); ?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -35,6 +34,13 @@
   <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
 
   <title>Blog:Home</title>
+  <script>
+    function delete_data(did,slug) {
+      if (confirm('Are you sure ??')) {
+        window.location.href = './delete.php?comment=' + did;
+      }
+    }
+</script>
 </head>
 
 <body>
@@ -47,7 +53,7 @@
           <?php if (isset($_SESSION['user'])) {
             if ($_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/add_post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/profile.php") {
               ?>
-              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none  rotate-n-15" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+              <a href="./index.php" class="d-block p-3 link-dark text-decoration-none  rotate-n-15" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                 <i class="bi-stickies fs-1"></i>
               </a>
 
@@ -73,7 +79,7 @@
                   </i>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                  <li><a class="dropdown-item" href="./Post/profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
+                  <li><a class="dropdown-item" href="../Post/profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
                   <li><a class="dropdown-item" href="./logout.php">logout</a></li>
 
                 </ul>

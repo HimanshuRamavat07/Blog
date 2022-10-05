@@ -26,7 +26,7 @@ session_start();
     <div class="container new py-4" >
         <div class="row g-0 align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="card cascading-right" style="
+                <div class="card cascading-right shadow p-3 mb-5 bg-white rounded" style="
             background: hsla(0, 0%, 100%, 0.55);
             backdrop-filter: blur(30px);
             ">

@@ -1,2 +1,5 @@
-# Example 1: redirect errors to html files
-ErrorDocument 404 /404.php 
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php//$1 [L]

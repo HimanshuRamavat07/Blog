@@ -11,4 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $blog->updateTag($id,$title);
     echo "true";
 }
+
+
 exit;
+?>
+

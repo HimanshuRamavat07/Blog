@@ -1,4 +1,9 @@
 <?php session_start(); ?>
+<?php
+if (!isset($_SESSION['user'])) {
+    header('location:./login.php');
+}
+?>
 <?php include_once('./Config/connection.php') ?>
 <?php include_once('./App/function.php') ?>
 
@@ -35,9 +40,9 @@
                         $count++; ?>
                         <tr>
                             <td><?php echo $count; ?></td>
-                            <td><?php echo $category['cat_title']; ?></td>
-                            <td><a href="./Post/update.php?c_uid=<?php echo $category['cat_id']; ?>"><i class="bi bi-pencil-square mx-3"></i></a> ||
-                                <a href="./display_category_tag.php?c_did=<?php echo $category['cat_id']; ?>"><i class="bi bi-trash mx-3"></i></a>
+                            <td><?php echo $category['category_title']; ?></td>
+                            <td><a href="./Post/update.php?c_uid=<?php echo $category['category_id']; ?>"><i class="bi bi-pencil-square mx-3"></i></a> ||
+                                <a href="./display_category_tag.php?c_did=<?php echo $category['category_id']; ?>"><i class="bi bi-trash mx-3"></i></a>
                             </td>
 
                         </tr>
@@ -163,3 +168,11 @@
     </script>
 
 <?php } ?>
+
+<!-- 
+
+Good afternoon, Respected sir/ma'am.
+
+I want to tell you that the Gujarat government is hosting the Azadi Ka Amrit Mahotsav Hackathon in 2022. Since I am participating in this event and the Team Regional Round will be placed in GEC Bhavnagar, I will need to take one day's leave on October 7, 2022.
+
+Reason: Attending the 7-10-2022 Azadi Ka Amrit Mahotsav Hackathon.  -->
