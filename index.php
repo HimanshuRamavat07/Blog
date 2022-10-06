@@ -9,17 +9,15 @@ if (!isset($_SESSION['user'])) {
 <?php include_once('./header.php'); ?>
 <?php
 
-
 $blog = new Blog();
 if (isset($_SERVER['PATH_INFO'])) {
     $uid = $_SESSION['id'];
-    // echo $uid;
     $slug = $_SERVER['PATH_INFO'];
     $tag = $blog->tagRead($slug);
-    $r = $blog->readPost($slug);
-    $result = $r->fetch_assoc();
+    $read = $blog->readPost($slug);
+    $result = $read->fetch_assoc();
 ?>
-    <script src="../Assets/js/index.js"></script>
+
     <div class="container my-5">
         <div class="card mb-3 shadow p-3 mb-5 bg-white rounded">
 
@@ -47,9 +45,10 @@ if (isset($_SERVER['PATH_INFO'])) {
                             echo '<span class="badge bg-dark text-light new mx-1">' . $readTag['tag_name'] . '</span>';
                         }  ?>
                         <br>
-                        <small class="text-muted mx-1"> By <?php $user = $blog->postUser($result['post_id']);
-                                                            $author = $user->fetch_assoc();
-                                                            echo "<br> " . $author['user_name'] . " <br>"; ?>
+                        <small class="text-muted mx-1"> 
+                            By <?php $user = $blog->postUser($result['post_id']);
+                            $author = $user->fetch_assoc();
+                            echo "<br> " . $author['user_name'] . " <br>"; ?>
                             Posted On
                             <?php echo "  " . date('F j,Y', strtotime($result['publish_date'])); ?>
                         </small>
@@ -187,7 +186,7 @@ if (isset($_SERVER['PATH_INFO'])) {
                                 $user = $a->fetch_assoc(); ?>
                                 <div class="card-footer text-muted my-1 d-flex justify-content-between" > By -<a href="./Post/profile.php?aid=<?php echo $id; ?>"> <?php echo " " . $user['user_name']; ?> </a>On
                                     <?php echo "  " . date('F j , Y', strtotime($result['publish_date'])); ?>
-                                    <button class="btn btn-outline-danger mx-3 p-2 "><a href="./index.php?did=<?php echo $result['post_id']; ?>"> Delete Post </a></button>
+                                    <?php if($_SESSION['type']==1) { ?><button class="btn btn-outline-danger mx-3 p-2 "><a href="./index.php?did=<?php echo $result['post_id']; ?>"> Delete Post </a></button> <?php } ?>
                                 </div>
 
                             </div>
@@ -195,7 +194,6 @@ if (isset($_SERVER['PATH_INFO'])) {
                     <?php   } ?>
 
                 </div>
-
             </div>
             <div class="col-md-2 my-5">
                 <div class="card">
@@ -242,27 +240,9 @@ if (isset($_SERVER['PATH_INFO'])) {
     </div>
 <?php  } ?>
 <?php include_once('./footer.php'); ?>
-<script src="./Assets/js/index.js"></script>
-<script src="../Assets/js/comment.js"></script>
-<script>
-    function myFun(e) {
-        const name = e;
-        data = new FormData();
-        data.append('keyword', name);
 
-        http = new XMLHttpRequest();
-        url = 'search.php';
-
-        http.open('POST', url, true);
-
-        http.onreadystatechange = function() {
-            if (http.readyState == 4 && http.status == 200) {
-                document.getElementById('viewData').innerHTML = http.responseText;
-            }
-        }
-        http.send(data);
-    }
-</script>
+<script type="text/javascript" src="./Assets/js/index.js"></script>
+<script type="text/javascript" src="./Assets/js/comment.js"></script>
 <?php
 if (isset($_GET['did'])) {
     $id = $_GET['did'];      
@@ -278,18 +258,5 @@ if (isset($_GET['did'])) {
                     });</script> <?php
             }
           
-            // if (http.responseText) {
-            //     alertify.alert('Ready to rock', 'Post is deleted.', () => {
-            //         (window.location.href = "./index.php")
-            //     });
-            //     // window.location.href = './index.php';
-            //     console.log(http.responseText);
-            //  {
-            //     alertify.alert('Post is not deleted.', () => {
-            //         (alertify.set('notifier', 'position', 'top-right'), alertify.error('Try again.'))
-            //     });
-            //     console.log(http.responseText);
-            // }
-
 
 } ?>

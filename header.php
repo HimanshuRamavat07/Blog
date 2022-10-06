@@ -1,4 +1,4 @@
-<?php define("BASE_PATH",'\Himanshu\Blog'); ?>
+<?php define("BASE_PATH", '\Himanshu\Blog'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,12 +35,12 @@
 
   <title>Blog:Home</title>
   <script>
-    function delete_data(did,slug) {
+    function delete_data(did, slug) {
       if (confirm('Are you sure ??')) {
         window.location.href = './delete.php?comment=' + did;
       }
     }
-</script>
+  </script>
 </head>
 
 <body>
@@ -51,9 +51,9 @@
 
 
           <?php if (isset($_SESSION['user'])) {
-            if ($_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/add_post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/profile.php") {
-              ?>
-              <a href="./index.php" class="d-block p-3 link-dark text-decoration-none  rotate-n-15" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+            if ($_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/add_post.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/index.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/filterData.php" || $_SERVER['PHP_SELF'] == "/Himanshu/Blog/Post/profile.php" || $_SERVER['PHP_SELF'] = "Blog/filterData.php") {
+          ?>
+              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none  rotate-n-15" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                 <i class="bi-stickies fs-1"></i>
               </a>
 
@@ -64,13 +64,13 @@
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
                   <li><a class="dropdown-item" href="./profile.php?pid=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-                  <li><a class="dropdown-item" href="../logout.php">logout</a></li>
+                  <li><a class="dropdown-item" href="./logout.php">logout</a></li>
 
                 </ul>
 
               </div>
             <?php } else { ?>
-              <a href="./index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+              <a href="../index.php" class="d-block p-3 link-dark text-decoration-none" title="Blog" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                 <i class="bi-stickies fs-1"></i>
               </a>
               <div class="dropdown">
@@ -87,12 +87,14 @@
               </div>
 
 
-          <?php }
+          <?php
+
+            }
           } ?>
 
           <?php if (isset($_SESSION['type'])) {
             if ($_SESSION['type'] == 1) {
-              ?>
+          ?>
               <div class="dropdown">
                 <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser4" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
                   <i class="bi bi-gear h2"></i>

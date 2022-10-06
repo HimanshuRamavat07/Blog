@@ -2,7 +2,7 @@
 <?php include_once('./Config/connection.php') ?>
 <?php include_once('./App/function.php') ?>
 <?php include_once('./header.php'); ?>
-
+<?php echo $_SERVER['PHP_SELF']; ?>
 <?php
 $blog = new Blog();
 $cid = $_GET['category_id'];

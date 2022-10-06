@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  !isset($_POST['category']) && !iss
     }
     if (isset($_POST['category'])) {
 
-        $filter = $blog->searchKeyword_Category($keyword, $category);
+        $filter = $blog->searchKeywordCategory($keyword, $category);
     }
     // echo "true";
 ?>
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  !isset($_POST['tag']) && isset($_P
     $r = $blog->readPost();
     $category3 = $blog->catagoryRead();
     $tag = $blog->tagRead();
-    $filter = $blog->searchKeyword_Category($keyword, $category);
+    $filter = $blog->searchKeywordCategory($keyword, $category);
 
     // echo "true";
 ?>
@@ -205,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['category']) && isset
     $r = $blog->readPost();
     $category3 = $blog->catagoryRead();
     $tag2 = $blog->tagRead();
-    $filter = $blog->searchKeyword_Tag($keyword, $tag);
+    $filter = $blog->searchKeywordTag($keyword, $tag);
 
     // echo "true";
 ?>

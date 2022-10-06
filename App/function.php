@@ -50,14 +50,13 @@ class Blog extends Database
     * @param array $tag value of selected tag
     * 
     */
-   
+
     public function addPost($param, $category, $tag)
     {
         $key = implode(' , ', array_keys($param));
         $value = implode(" ', '", $param);
         $category_id = explode(',', $category);
         $tag_id = explode(',', $tag);
-        
 
         $sql = "INSERT INTO `post`($key) VALUES('$value')";
         $query = $this->conn->query($sql);
@@ -75,6 +74,7 @@ class Blog extends Database
         } else {
             return false;
         }
+        
     }
 
     /*  
@@ -87,12 +87,12 @@ class Blog extends Database
         if ($id) {
             $sql .= " WHERE `slug`='$id'";
         }
-        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
 
-    public function readPostId($id) {
+    public function readPostId($id)
+    {
         $sql = "SELECT * FROM (((( `post` INNER JOIN `post_category` ON post_category.post_id=post.post_id ) INNER JOIN `post_tag` ON post_tag.post_id = post.post_id ) INNER JOIN `tag` ON tag.tag_id = post_tag.tag_id )INNER JOIN `category` ON category.category_id = post_category.category_id )WHERE post.post_id='$id';";
         $query = $this->conn->query($sql);
         return $query;
@@ -106,17 +106,16 @@ class Blog extends Database
     * @param string $slug value of post url
     * @param int $pid post id
     */
-    public function updatePost($param, $category, $tag, $slug,$pid)
+    public function updatePost($param, $category, $tag, $slug, $pid)
     {
         foreach ($param as $key => $value) {
             $args[] = "$key = '$value'";
         }
 
-        $category_id = explode(',', $category); 
+        $category_id = explode(',', $category);
         $tag_id = explode(',', $tag);
 
         $sql = "UPDATE `post` SET " . implode(',', $args) . " WHERE `slug`='$slug'";
-        // print_r($sql);
 
         $query = $this->conn->query($sql);
 
@@ -150,7 +149,7 @@ class Blog extends Database
         $deleteTag = "DELETE FROM `post_tag` WHERE `post_id`='$id'";
         $runCategory = $this->conn->query($deleteTag);
         $deletePost = "DELETE FROM `post` WHERE `post_id`='$id'";
-       
+
         $query = $this->conn->query($deletePost);
         if ($query) {
             return true;
@@ -167,7 +166,6 @@ class Blog extends Database
     {
         $sql = "INSERT INTO `category` (`category_title`) VALUES ('$name')";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -181,7 +179,6 @@ class Blog extends Database
         if ($id) {
             $sql = "SELECT * FROM ((`post` INNER JOIN `post_category` ON post_category.post_id=post.post_id) INNER JOIN `category` ON category.category_id=post_category.category_id)WHERE post.post_id='$id' OR post.slug='$id'";
         }
-        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
@@ -195,7 +192,6 @@ class Blog extends Database
     {
         $sql = "UPDATE `category` SET `category_title` = '$title' WHERE `category_id`='$id'";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -207,7 +203,6 @@ class Blog extends Database
     {
         $sql = "DELETE FROM `category` WHERE `category_id`='$id'";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -219,7 +214,6 @@ class Blog extends Database
     {
         $sql = "INSERT INTO `tag` (`tag_name`) VALUES ('$name')";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -247,7 +241,6 @@ class Blog extends Database
     {
         $sql = "UPDATE `tag` SET `tag_name` = '$title' WHERE `tag_id`='$id'";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -259,7 +252,6 @@ class Blog extends Database
     {
         $sql = "DELETE FROM `tag` WHERE `tag_id`='$id'";
         $query = $this->conn->query($sql);
-        // print_r($sql);
         return $query;
     }
 
@@ -272,7 +264,6 @@ class Blog extends Database
     public function addComment($uid, $pid, $content)
     {
         $sql = "INSERT INTO `comments` (`user_id`,`post_id`,`comment`) VALUES ('$uid','$pid','$content')";
-        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
@@ -284,7 +275,6 @@ class Blog extends Database
     public function readComment($id)
     {
         $sql = "SELECT * FROM ((`comments` INNER JOIN `post` ON post.post_id=comments.post_id ) INNER JOIN `user` ON comments.user_id=user.user_id) WHERE comments.post_id='$id'";
-        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
@@ -296,10 +286,10 @@ class Blog extends Database
     public function deleteComment($id)
     {
         $sql = "DELETE FROM `comments` WHERE `comment_id`='$id'";
-        // print_r($sql);
         $query = $this->conn->query($sql);
-        if($query) {
-        return "true"; }
+        if ($query) {
+            return "true";
+        }
     }
 
 
@@ -357,6 +347,10 @@ class Blog extends Database
         return $query;
     }
 
+
+    /* filter blog by Category
+    @param Int $id determine which category user choose
+     */
     public function filterCategory($id)
     {
         $sql = " SELECT * FROM ((`post` INNER JOIN `post_category` ON post_category.post_id=post.post_id ) INNER JOIN `category` ON category.category_id=post_category.category_id )  WHERE category.category_id='$id' ORDER BY post.post_id DESC";
@@ -364,6 +358,9 @@ class Blog extends Database
         return $query;
     }
 
+    /* filter blog by Tag
+    @param Int $id determine which tag user choose
+     */
     public function filterTag($id)
     {
         $sql = " SELECT * FROM ((`post` INNER JOIN `post_tag` ON post_tag.post_id=post.post_id ) INNER JOIN `tag` ON tag.tag_id=post_tag.tag_id )  WHERE tag.tag_id='$id' ORDER BY post.post_id DESC";
@@ -371,26 +368,35 @@ class Blog extends Database
         return $query;
     }
 
+    /* filter blog by search value
+    @param string $keyword determine which keyword user choose
+     */
     public function search($keyword)
     {
         $sql = "SELECT * FROM `post` WHERE `title` LIKE '%$keyword%' OR `description` LIKE '%$keyword%' ";
-        // print_r($sql);
         $query = $this->conn->query($sql);
         return $query;
     }
 
-    public function searchKeyword_Category($keyword,$category) {
+    /* filter blog by search value plus category value
+    @param string $keyword determine which keyword user choose
+    @param string $category determine which category user choose
+     */
+    public function searchKeywordCategory($keyword, $category)
+    {
         $sql = "SELECT * FROM ((`post` LEFT JOIN `post_category` ON post_category.post_id=post.post_id ) LEFT JOIN `category` ON category.category_id=post_category.category_id ) WHERE ( post.title LIKE '%$keyword%' OR post.description LIKE '%$keyword%' ) AND category.category_title LIKE '%$category%'";
         $query = $this->conn->query($sql);
-    //    print_r($sql);
         return $query;
     }
 
-    public function searchKeyword_Tag($keyword,$tag) {
+    /* filter blog by search value plus category value
+    @param string $keyword determine which keyword user choose
+    @param string $tag determine which tag user choose
+     */
+    public function searchKeywordTag($keyword, $tag)
+    {
         $sql = "SELECT * FROM ((`post` LEFT JOIN `post_tag` ON post_tag.post_id=post.post_id ) LEFT JOIN `tag` ON tag.tag_id=post_tag.tag_id ) WHERE ( post.title LIKE '%$keyword%' OR post.description LIKE '%$keyword%' ) AND tag.tag_name LIKE '%$tag%'";
         $query = $this->conn->query($sql);
-    //    print_r($sql);
         return $query;
     }
 }
-    
